@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "333980362825",
+    "project_id": "sky-chatter",
+    "storage_bucket": "sky-chatter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333980362825:android:d02a0b3f056776d7fc7798",
+        "android_client_info": {
+          "package_name": "com.example.fbla_22_23_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333980362825-ikjr4c50fth87llk0fhc0d8e7if9gb98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWYN468Sr6TkMWpMRT39xP_cQQcG78DgI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "333980362825-ikjr4c50fth87llk0fhc0d8e7if9gb98.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "333980362825-ehkgka151m5usjkhnh0tfcu3vm8un763.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fbla2223Project"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
