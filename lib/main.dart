@@ -1,5 +1,5 @@
+import 'package:fbla_22_23_project/screens/home.dart';
 import 'package:fbla_22_23_project/screens/login/login.dart';
-import 'package:fbla_22_23_project/screens/upcomming_events/upcomming_events.dart';
 import 'package:fbla_22_23_project/themes/light_them.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +41,13 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasData) {
             return Provider(
               create: (email) => FirebaseAuth.instance.currentUser?.email,
-              child: const UpcommingEvents(),
+              child: const HomePage(),
             );
           } else {
             return const LoginScreen();
           }
         },
       ),
-      //home: const LoginScreen(),
     );
   }
 }
