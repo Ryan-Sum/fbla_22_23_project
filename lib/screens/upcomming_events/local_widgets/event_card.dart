@@ -18,8 +18,6 @@ class EventCards extends StatefulWidget {
 class _EventCardsState extends State<EventCards> {
   @override
   Widget build(BuildContext context) {
-    print('run');
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
       child: Center(

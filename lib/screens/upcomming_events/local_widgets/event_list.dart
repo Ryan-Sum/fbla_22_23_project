@@ -20,8 +20,6 @@ class _EventListState extends State<EventList> {
     for (var i = 0; i < widget.snapshot.data!.length; i++) {
       isActive.add(false);
     }
-    print(isActive);
-    print(widget.snapshot.data!.length);
     return ListView.builder(
       itemCount: widget.snapshot.data!.length,
       itemBuilder: (BuildContext context, int index) {
@@ -95,7 +93,7 @@ class _EventListState extends State<EventList> {
     try {
       value = await gsReference.getDownloadURL();
     } on FirebaseException catch (e) {
-      value = null;
+      value = e.message;
     }
     return value;
   }
