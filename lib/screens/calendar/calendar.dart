@@ -113,20 +113,22 @@ class _CalendarState extends State<Calendar> {
                         itemCount: _selectedEvents.value.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                              title: Text(value.elementAt(index).name +
-                                  (value.elementAt(index).isWeek
-                                      ? ' (All Week)'
-                                      : '')),
-                              trailing: Text(DateFormat('EEEE, MMM d, yyyy')
-                                  .format(value.elementAt(index).date)),
-                              onTap: () => showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => buildSheet(
-                                        _selectedEvents.value
-                                            .elementAt(index)
-                                            .imageUrl,
-                                        _selectedEvents.value.elementAt(index)),
-                                  ));
+                            title: Text(value.elementAt(index).name +
+                                (value.elementAt(index).isWeek
+                                    ? ' (All Week)'
+                                    : '')),
+                            trailing: Text(
+                              DateFormat('EEEE, MMM d, yyyy')
+                                  .format(value.elementAt(index).date),
+                            ),
+                            onTap: () => showModalBottomSheet(
+                              context: context,
+                              builder: (context) => buildSheet(
+                                _selectedEvents.value.elementAt(index).imageUrl,
+                                _selectedEvents.value.elementAt(index),
+                              ),
+                            ),
+                          );
                         },
                       );
                     },
@@ -135,7 +137,7 @@ class _CalendarState extends State<Calendar> {
               ],
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
@@ -143,52 +145,47 @@ class _CalendarState extends State<Calendar> {
   }
 
   Widget buildSheet(String url, Event data) {
-    return Column(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  data.name,
-                  style: const TextStyle(
-                      fontSize: 32, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                    '${(data.isWeek ? 'The week of' : 'On')} ${DateFormat('EEEE, MMM d, yyyy').format(data.date)}'),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                  child: Text(data.content),
-                ),
-                FutureBuilder(
-                  future: getImage(url),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData == true) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            snapshot.data!,
-                            height: 243,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                ),
-              ],
+    return Container(
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              data.name,
+              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
-          ),
+            Text(
+                '${(data.isWeek ? 'The week of' : 'On')} ${DateFormat('EEEE, MMM d, yyyy').format(data.date)}'),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+              child: Text(data.content),
+            ),
+            FutureBuilder(
+              future: getImage(url),
+              builder: (context, snapshot) {
+                if (snapshot.hasData == true) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        snapshot.data!,
+                        height: MediaQuery.of(context).size.height * 0.21,
+                      ),
+                    ),
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

@@ -13,7 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>fbla_22_23_project</string>
+	<string>SkyChatter</string>
+	<key>CFBundleDisplayName</key>
+	<string>SkyChatter</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
