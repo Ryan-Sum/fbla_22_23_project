@@ -4,6 +4,8 @@ import 'package:fbla_22_23_project/screens/profile/profile_screen.dart';
 import 'package:fbla_22_23_project/screens/share_images/share_images.dart';
 import 'package:fbla_22_23_project/screens/social_media/social_media.dart';
 import 'package:fbla_22_23_project/themes/palette.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +19,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Widget screen = const SocialMediaScreen();
   String title = 'Social Media';
+  String imageUrl = '';
+
+  void getImage() {
+    if (FirebaseAuth.instance.currentUser?.photoURL != null) {
+      setState(() {
+        imageUrl = FirebaseAuth.instance.currentUser!.photoURL!;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    getImage();
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
@@ -39,17 +52,29 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
-                      Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 64,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: CircleAvatar(
+                          backgroundImage:
+                              (imageUrl == '') ? null : NetworkImage(imageUrl),
+                          radius: 32,
+                          child: (imageUrl == '')
+                              ? const Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 32,
+                                )
+                              : null,
+                        ),
                       ),
                       Spacer(),
                     ],
                   ),
                   Text(
-                    context.read<String>(),
+                    ((FirebaseAuth.instance.currentUser!.displayName == null)
+                        ? FirebaseAuth.instance.currentUser!.email
+                        : FirebaseAuth.instance.currentUser!.displayName)!,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
