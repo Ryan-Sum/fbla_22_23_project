@@ -1,0 +1,32 @@
+During the creation of this project, some packages were used to create greater functionality within the app. Without these packages, this functionality would be almost impossible to implement within the scope of this project. All of these packages are free to use with their licenses listed below.
+
+Packages used in this project:
+  flutter: sdk: flutter
+    - License for Flutter Engine: https://raw.githubusercontent.com/flutter/engine/master/sky/packages/sky_engine/LICENSE
+    - License for Dart Framework: https://github.com/flutter/flutter/blob/master/LICENSE
+  cupertino_icons: ^1.0.2
+    - License: https://pub.dev/packages/cupertino_icons/license
+  firebase_core: ^2.3.0
+    - License: https://pub.dev/packages/firebase_core/license
+  url_launcher: ^6.1.7
+    - License: https://pub.dev/packages/url_launcher/license
+  cloud_firestore: ^4.1.0
+    - License: https://pub.dev/packages/cloud_firestore/license
+  firebase_auth: ^4.1.3
+    - License: https://pub.dev/packages/firebase_auth/license
+  provider: ^6.0.4
+    - License: https://pub.dev/packages/provider/license
+  email_validator: ^2.1.17
+    - License: https://pub.dev/packages/email_validator/license
+  firebase_storage: ^11.0.6
+    - License: https://pub.dev/packages/firebase_storage/license
+  table_calendar: ^3.0.8
+    - License: https://pub.dev/packages/table_calendar/license
+  intl: ^0.17.0
+    - License: https://pub.dev/packages/intl/license
+  webview_flutter: ^4.0.0
+    - License: https://pub.dev/packages/webview_flutter/license
+  uuid: ^3.0.7
+    - License: https://pub.dev/packages/uuid/license
+  image_picker: ^0.8.6
+    - License: https://pub.dev/packages/image_picker/license
