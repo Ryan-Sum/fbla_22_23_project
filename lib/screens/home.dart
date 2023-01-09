@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
                 leading: const Icon(Icons.checklist),
-                title: const Text('Attendence'),
+                title: const Text('Attendance'),
                 onTap: () {
                   setState(() {
                     screen = const AbsenceScreen();

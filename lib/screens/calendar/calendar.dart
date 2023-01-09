@@ -151,39 +151,48 @@ class _CalendarState extends State<Calendar> {
               topLeft: Radius.circular(16), topRight: Radius.circular(16))),
       child: Padding(
         padding: const EdgeInsets.all(32.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              data.name,
-              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            Text(
-                '${(data.isWeek ? 'The week of' : 'On')} ${DateFormat('EEEE, MMM d, yyyy').format(data.date)}'),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-              child: Text(data.content),
-            ),
-            FutureBuilder(
-              future: getImage(url),
-              builder: (context, snapshot) {
-                if (snapshot.hasData == true) {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        snapshot.data!,
-                        height: MediaQuery.of(context).size.height * 0.21,
-                      ),
-                    ),
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                data.name,
+                style:
+                    const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                  '${(data.isWeek ? 'The week of' : 'On')} ${DateFormat('EEEE, MMM d, yyyy').format(data.date)}'),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                child: Text(
+                  data.content,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              FutureBuilder(
+                future: getImage(url),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData == true) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              snapshot.data!,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

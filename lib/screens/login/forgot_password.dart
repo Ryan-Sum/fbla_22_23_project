@@ -72,7 +72,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Email Sent to: ${_emailControler..text.trim()}'),
+          content: Text('Email sent to: ${_emailControler.value.text.trim()}'),
         ),
       );
     } on FirebaseAuthException catch (e) {

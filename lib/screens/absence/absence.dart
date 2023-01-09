@@ -92,6 +92,7 @@ class _AbsenceScreenState extends State<AbsenceScreen> {
       }
     }
     for (var element in absence.data!) {
+      print('${element.studentId} $studentid');
       if ((element.studentId == studentid) &&
           (isSameDay(
               DateTime.fromMillisecondsSinceEpoch(
@@ -150,141 +151,148 @@ class _AbsenceScreenState extends State<AbsenceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: StreamBuilder(
-        stream: getStudentSnapshot(),
-        builder: (context, snapshotStudent) {
-          if (snapshotStudent.hasData == true) {
-            return StreamBuilder(
-              stream: getTeacherSnapshot(),
-              builder: (context, snapshotTeachers) {
-                if (snapshotTeachers.hasData == true) {
-                  return StreamBuilder(
-                    stream: getAbsenceSnapshot(),
-                    builder: (context, snapshotAbsence) {
-                      return StreamBuilder(
-                        stream: getParentSnapshot(),
-                        builder: (context, snapshotParents) {
-                          if (snapshotParents.hasData) {
-                            if (snapshotAbsence.hasData == true) {
-                              getAlreadyAbsent(
-                                  snapshotAbsence, snapshotParents);
-                              String accountType = getAccountType(
-                                  snapshotStudent,
-                                  snapshotTeachers,
-                                  snapshotParents);
-                              if (accountType == 'student') {
-                                return const Center(
-                                  child: Text(
-                                    'You must have a parent account to mark yourself absent. Please contanct your parent to have them mark you absent.',
-                                    textAlign: TextAlign.center,
-                                  ),
-                                );
-                              } else if (accountType == 'parent') {
-                                return Column(
-                                  children: [
-                                    const Spacer(),
-                                    Text(
-                                      'By clicking the button below, you are marking your child as absent for today, ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())}. This will mark your child absent for the entire day If your child signs in late, they will be marked present for the remaining part of the day.',
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: StreamBuilder(
+          stream: getStudentSnapshot(),
+          builder: (context, snapshotStudent) {
+            if (snapshotStudent.hasData == true) {
+              return StreamBuilder(
+                stream: getTeacherSnapshot(),
+                builder: (context, snapshotTeachers) {
+                  if (snapshotTeachers.hasData == true) {
+                    return StreamBuilder(
+                      stream: getAbsenceSnapshot(),
+                      builder: (context, snapshotAbsence) {
+                        return StreamBuilder(
+                          stream: getParentSnapshot(),
+                          builder: (context, snapshotParents) {
+                            if (snapshotParents.hasData) {
+                              if (snapshotAbsence.hasData == true) {
+                                getAlreadyAbsent(
+                                    snapshotAbsence, snapshotParents);
+                                String accountType = getAccountType(
+                                    snapshotStudent,
+                                    snapshotTeachers,
+                                    snapshotParents);
+                                if (accountType == 'student') {
+                                  return const Center(
+                                    child: Text(
+                                      'You must have a parent account to mark yourself absent. Please contanct your parent to have them mark you absent.',
                                       textAlign: TextAlign.center,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 16.0),
-                                      child: ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor: (_isWeekend ||
-                                                      alreadyAbsent)
-                                                  ? MaterialStateProperty.all<
-                                                      Color>(Colors.grey)
-                                                  : MaterialStateProperty.all<
-                                                          Color>(
-                                                      Palette.primarySwatch)),
-                                          onPressed: () {
-                                            if ((!_isWeekend ||
-                                                !alreadyAbsent)) {
-                                              reportAbsence(
-                                                  snapshotStudent,
-                                                  snapshotParents,
-                                                  snapshotTeachers);
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(_isWeekend
-                                                      ? "You can't mark your student absent on a weekend"
-                                                      : "Your student is already marked absent"),
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          child: const Text(
-                                              'Mark my student absent today')),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                );
-                              } else if (accountType == 'teacher') {
-                                List<dynamic> absences = getAbsencesForTeacher(
-                                    snapshotAbsence, snapshotStudent);
-                                int length = absences.length;
-                                for (var i = 0; i < (30 - length); i++) {
-                                  absences.add('');
-                                }
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Text(
-                                        'Your Absences Today:\n(${DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())})',
+                                  );
+                                } else if (accountType == 'parent') {
+                                  return Column(
+                                    children: [
+                                      const Spacer(),
+                                      Text(
+                                        'By clicking the button below, you are marking your child as absent for today, ${DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())}. This will mark your child absent for the entire day If your child signs in late, they will be marked present for the remaining part of the day.',
                                         textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 16.0),
+                                        child: ElevatedButton(
+                                            style: ButtonStyle(
+                                                backgroundColor: (_isWeekend ||
+                                                        alreadyAbsent)
+                                                    ? MaterialStateProperty.all<
+                                                        Color>(Colors.grey)
+                                                    : MaterialStateProperty.all<
+                                                            Color>(
+                                                        Palette.primarySwatch)),
+                                            onPressed: () {
+                                              print(
+                                                  'Is weekend: $_isWeekend \n Already absent: $alreadyAbsent');
+                                              if ((!_isWeekend &&
+                                                  !alreadyAbsent)) {
+                                                reportAbsence(
+                                                    snapshotStudent,
+                                                    snapshotParents,
+                                                    snapshotTeachers);
+                                              } else {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(_isWeekend
+                                                        ? "You can't mark your student absent on a weekend"
+                                                        : "Your student is already marked absent"),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                            child: const Text(
+                                                'Mark my student absent today')),
+                                      ),
+                                      const Spacer(),
+                                    ],
+                                  );
+                                } else if (accountType == 'teacher') {
+                                  List<dynamic> absences =
+                                      getAbsencesForTeacher(
+                                          snapshotAbsence, snapshotStudent);
+                                  int length = absences.length;
+                                  for (var i = 0; i < (30 - length); i++) {
+                                    absences.add('');
+                                  }
+                                  return Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Text(
+                                          'Your Absences Today:\n(${DateFormat('EEEE, MMM d, yyyy').format(DateTime.now())})',
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: absences.length,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                            color: (index % 2 == 1)
-                                                ? Colors.white
-                                                : Colors.grey[400],
-                                            child: ListTile(
-                                              title: Text(
-                                                  '${index + 1}. ${absences.elementAt(index)}'),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                );
+                                      Expanded(
+                                        child: ListView.builder(
+                                          itemCount: absences.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              color: (index % 2 == 1)
+                                                  ? Colors.white
+                                                  : Colors.grey[400],
+                                              child: ListTile(
+                                                title: Text(
+                                                    '${index + 1}. ${absences.elementAt(index)}'),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                } else {
+                                  return const Text('Error');
+                                }
                               } else {
-                                return const Text('Error');
+                                return const CircularProgressIndicator();
                               }
                             } else {
                               return const CircularProgressIndicator();
                             }
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        },
-                      );
-                    },
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            );
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        ),
       ),
     );
   }
